@@ -205,3 +205,15 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# FinAlly: runtime SQLite database (volume-mounted)
+db/*.db
+db/*.db-journal
+db/*.db-wal
+db/*.db-shm
+
+# FinAlly: Next.js build artifacts
+frontend/out/
+frontend/.next/
+frontend/node_modules/
+

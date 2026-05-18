@@ -1,0 +1,24 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: finally-app:test
+    container_name: finally-app-test
+    ports:
+      - "8000:8000"
+    environment:
+      LLM_MOCK: "true"
+      OPENROUTER_API_KEY: "test-key-not-used"
+      MASSIVE_API_KEY: ""
+    volumes:
+      - finally-test-data:/app/db
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/api/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+
+volumes:
+  finally-test-data:

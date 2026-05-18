@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-feature-settings: "ss01", "ss02", "cv11", "tnum";
+  text-rendering: optimizeLegibility;
+}
+
+/* Custom scrollbars to fit the terminal aesthetic */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2a3340 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #2a3340;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@layer components {
+  .panel {
+    @apply relative bg-bg-panel border border-line shadow-panel;
+  }
+
+  .panel-header {
+    @apply flex items-center gap-3 px-3 py-2 border-b border-line text-2xs uppercase tracking-[0.18em] text-ink-muted font-mono;
+  }
+
+  .panel-title {
+    @apply text-ink font-medium;
+  }
+
+  .hairline {
+    @apply h-px w-full bg-line;
+  }
+
+  .label-2xs {
+    @apply text-2xs uppercase tracking-[0.18em] text-ink-dim;
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-1.5 px-1.5 py-0.5 text-2xs uppercase tracking-[0.16em] border border-line text-ink-muted rounded-sm;
+  }
+
+  .num {
+    @apply font-mono tabular-nums;
+  }
+
+  .btn-buy {
+    @apply inline-flex items-center justify-center gap-1.5 px-3 py-2 font-mono text-sm uppercase tracking-[0.12em]
+      border border-accent-blue/40 bg-accent-blue/10 text-accent-blue
+      hover:bg-accent-blue/20 hover:border-accent-blue transition-colors
+      disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-sell {
+    @apply inline-flex items-center justify-center gap-1.5 px-3 py-2 font-mono text-sm uppercase tracking-[0.12em]
+      border border-signal-down/40 bg-signal-down/10 text-signal-down
+      hover:bg-signal-down/20 hover:border-signal-down transition-colors
+      disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-submit {
+    @apply inline-flex items-center justify-center gap-1.5 px-3 py-2 font-mono text-sm uppercase tracking-[0.12em]
+      border border-accent-purple/50 bg-accent-purple/20 text-ink
+      hover:bg-accent-purple/40 hover:border-accent-purple transition-colors
+      disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .input-bare {
+    @apply bg-bg-inset border border-line px-2 py-1.5 text-sm font-mono text-ink
+      placeholder:text-ink-faint
+      focus:outline-none focus:border-accent-blue/60 focus:ring-1 focus:ring-accent-blue/20
+      transition-colors;
+  }
+
+  .corner-tl::before { content: ""; @apply absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent-yellow/60; }
+  .corner-tr::after  { content: ""; @apply absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-accent-yellow/60; }
+  .corner-bl > .bl   { @apply absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-accent-yellow/60; }
+  .corner-br > .br   { @apply absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-accent-yellow/60; }
+}
+
+@layer utilities {
+  .text-up { color: #3fb950; }
+  .text-down { color: #f85149; }
+  .text-flat { color: #6b7380; }
+  .bg-up-faint { background-color: rgba(63, 185, 80, 0.08); }
+  .bg-down-faint { background-color: rgba(248, 81, 73, 0.08); }
+
+  /* Brief flash on price tick, then fade. Applied via key change to retrigger. */
+  .flash-up { animation: flashUp 600ms ease-out; }
+  .flash-down { animation: flashDown 600ms ease-out; }
+}

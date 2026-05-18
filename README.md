@@ -25,17 +25,35 @@ Single Docker container serving everything on port 8000:
 
 ## Quick Start
 
-```bash
-# Clone and configure
-cp .env.example .env
-# Add your OPENROUTER_API_KEY to .env
+One command to build and run. Requires Docker.
 
-# Run with Docker
+```bash
+# Configure
+cp .env.example .env       # then edit .env and set OPENROUTER_API_KEY
+
+# macOS / Linux
+./scripts/start_mac.sh         # add --build to force rebuild, --open to open the browser
+./scripts/stop_mac.sh
+
+# Windows (PowerShell)
+.\scripts\start_windows.ps1    # add -Build to force rebuild, -Open to open the browser
+.\scripts\stop_windows.ps1
+```
+
+Or run the underlying Docker commands directly:
+
+```bash
 docker build -t finally .
-docker run -v finally-data:/app/db -p 8000:8000 --env-file .env finally
+docker run -d --name finally \
+  --env-file .env \
+  -v finally-data:/app/db \
+  -p 8000:8000 \
+  finally:latest
 
 # Open http://localhost:8000
 ```
+
+`docker compose up -d` works too — see `docker-compose.yml`. The named volume `finally-data` keeps your SQLite database across restarts.
 
 ## Environment Variables
 
