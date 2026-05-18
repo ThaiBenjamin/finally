@@ -11,10 +11,12 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from . import state
 from .api import health_router, portfolio_router, watchlist_router
@@ -75,6 +77,17 @@ def create_app(price_cache: PriceCache | None = None) -> FastAPI:
         version="0.1.0",
         lifespan=lifespan,
     )
+
+    origins_raw = os.environ.get("FINALLY_CORS_ORIGINS", "").strip()
+    if origins_raw:
+        origins = [o.strip() for o in origins_raw.split(",") if o.strip()]
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=origins,
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
 
     app.include_router(health_router)
     app.include_router(watchlist_router)
