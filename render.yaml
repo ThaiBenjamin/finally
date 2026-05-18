@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: finally-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: MASSIVE_API_KEY
+        sync: false
+      - key: LLM_MOCK
+        value: "false"
+      - key: FINALLY_CORS_ORIGINS
+        sync: false
+    # Uncomment if you upgrade to a paid plan and want SQLite to persist
+    # across restarts. The free plan has an ephemeral filesystem; the app
+    # re-seeds itself on boot, which is fine for a demo.
+    # disk:
+    #   name: finally-data
+    #   mountPath: /app/db
+    #   sizeGB: 1
